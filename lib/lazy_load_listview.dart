@@ -116,7 +116,10 @@ class _State extends State<LazyLoadListview>
           separatorBuilder: (_, index) => (widget.separator??Container(height: widget.separatorPadding??10.0,)),
           itemCount: widget.length! + 1,
           itemBuilder: (BuildContext context, int position) {
-            if (position >= (widget.length! * 0.6).round()) {
+            if(position == 0) {
+              loadMore();
+            }
+            else if (position >= (widget.length! * 0.6).round()) {
               loadMore();
             }
             if (position == widget.length!) {
@@ -149,8 +152,8 @@ class _State extends State<LazyLoadListview>
   void loadMore() async {
     if(!widget.isLastItem) {
       if (widget.loadMoreItem != null) {
-        await Future.delayed(const Duration(milliseconds: 200));
         if(!isLoadMore) {
+          await Future.delayed(const Duration(milliseconds: 200));
           isLoadMore = true;
           await widget.loadMoreItem!();
           isLoadMore = false;
