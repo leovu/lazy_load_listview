@@ -15,6 +15,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   List<int> _data = [1,2,3,4,5,6,7,8,9,10];
   bool isLastItem = false;
+  bool isLoadMore = false;
   @override
   void initState() {
     super.initState();
@@ -37,15 +38,20 @@ class _MyAppState extends State<MyApp> {
             setState(() {});
           },
           loadMoreItem: () async {
-            int lastValue = _data[_data.length-1];
-            for(int i=1;i<=10;i++) {
-              _data.add(lastValue+i);
+            if(!isLoadMore) {
+              isLoadMore = true;
+              int lastValue = _data[_data.length-1];
+              for(int i=1;i<=10;i++) {
+                _data.add(lastValue+i);
+              }
+              lastValue = _data[_data.length-1];
+              if(lastValue >= 200) {
+                isLastItem = true;
+              }
+              Future.delayed(Duration(seconds:1));
+              isLoadMore = false;
+              setState(() {});
             }
-            lastValue = _data[_data.length-1];
-            if(lastValue >= 200) {
-              isLastItem = true;
-            }
-            setState(() {});
           },
           isLastItem: isLastItem,
         ),
