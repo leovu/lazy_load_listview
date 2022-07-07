@@ -109,17 +109,14 @@ class _State extends State<LazyLoadListview>
         ),
       ),
       child: ListView.separated(
-          padding: widget.padding,
+          padding: EdgeInsets.all(0.0),
           physics: widget.physics,
           shrinkWrap: widget.shrinkWrap??false,
           scrollDirection: widget.isVertical == null ? Axis.vertical : widget.isVertical! ? Axis.vertical:Axis.horizontal,
-          separatorBuilder: (_, index) => (widget.separator??Container(height: widget.separatorPadding??10.0,)),
+          separatorBuilder: (_, index) => (widget.separator??Container(height: widget.separatorPadding??0.0,)),
           itemCount: widget.length! + 1,
           itemBuilder: (BuildContext context, int position) {
-            if(position == 0) {
-              loadMore();
-            }
-            else if (position >= (widget.length! * 0.6).round()) {
+            if (position >= (widget.length! * 0.6).round()) {
               loadMore();
             }
             if (position == widget.length!) {
